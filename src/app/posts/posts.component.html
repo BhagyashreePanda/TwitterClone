@@ -1,25 +1,16 @@
-<h2>Tweet Away!</h2>
-<form id="tweet-form">
-  <input #username type="text" placeholder="enter username" />
-  <textarea
-    #textInput
-    form="tweet-form"
-    rows="6"
-    cols="70"
-    maxlength="250"
-  ></textarea>
-  <button (click)="handleTweetClick(username.value, textInput.value)">
-    TWEET!
-  </button>
-</form>
-<h2>Tweets</h2>
-<button (click)="onHomeClick()">Home</button>
-<ul class="posts">
-  <li *ngFor="let post of posts" class="post">
-    <span class="user" (click)="onSelect($event)" id="{{ post.user }}">{{
-      post.user
-    }}</span>
-    <span class="content">{{ post.content }}</span>
-    <span class="time-stamp">{{ post.timeStamp }}</span>
-  </li>
-</ul>
+
+<div class="container" *ngIf="posts.length>0"  
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50"
+  [infiniteScrollContainer]="selector"
+  [fromRoot]="true"
+  (scrolled)="onScroll()">
+  <div class="posts" *ngFor="let post of posts">    
+    <app-post-cards  [postValues] = "post">     
+    </app-post-cards>
+  </div>
+</div>
+<div class="container" *ngIf="!posts || posts.length<1">
+<p>Loading...</p>
+</div>
